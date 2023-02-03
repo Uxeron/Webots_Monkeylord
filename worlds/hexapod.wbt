@@ -1,0 +1,205 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "../protos/Leg/Leg.proto"
+
+WorldInfo {
+  info [
+    "Demonstration of the alternate tripod gait using linear and rotational motors."
+    "Biologically Inspired Robotics Group (BIRG)"
+  ]
+  title "Hexapod"
+  CFM 0.0001
+  ERP 0.6
+  basicTimeStep 2
+  optimalThreadCount 6
+  contactProperties [
+    ContactProperties {
+      material2 "floor"
+      coulombFriction [
+        0.5
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.22191178793767252 -0.5961283760669428 -0.7716126733161496 5.515632727736306
+  position -0.4864399880923921 -0.327195328499518 0.3347165982147283
+  follow "robot"
+  followType "Pan and Tilt Shot"
+}
+TexturedBackground {
+}
+Floor {
+  contactMaterial "floor"
+  size 50 50
+  tileSize 0.3 0.3
+}
+TexturedBackgroundLight {
+}
+DEF Monkeylord Robot {
+  translation -7.60295e-14 2.38101e-13 1.71198e-13
+  rotation 0.5771968951617173 0.577656895078166 0.5771968951617173 2.09394
+  children [
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+      }
+      device [
+        PositionSensor {
+        }
+        RotationalMotor {
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.116 0
+        rotation 0 1 0 0
+        children [
+          DistanceSensor {
+            translation 0 0.034 -0.06
+            rotation 0 1 0 3.14159
+            name "Distance"
+          }
+          CadShape {
+            url [
+              "../Turret.obj"
+            ]
+          }
+        ]
+        name "solid(1)"
+      }
+    }
+    Group {
+      children [
+        Transform {
+          translation 0.0300967 -0.0002 -0.0555341
+          rotation 0 1 0 -2.3561953071795863
+          children [
+            CadShape {
+              url [
+                "../ConnectorWithServo.obj"
+              ]
+            }
+          ]
+        }
+        Transform {
+          translation -0.0300967 -0.0002 -0.0555341
+          rotation 0 1 0 -0.785395307179586
+          children [
+            CadShape {
+              url [
+                "../ConnectorWithServo.obj"
+              ]
+            }
+          ]
+        }
+        Transform {
+          translation -0.0300967 -0.0002 0.0555341
+          rotation 0 -1 0 -0.7854053071795866
+          children [
+            CadShape {
+              url [
+                "../ConnectorWithServo.obj"
+              ]
+            }
+          ]
+        }
+        Transform {
+          translation 0.0300967 -0.0002 0.0555341
+          rotation 0 1 0 2.3562
+          children [
+            CadShape {
+              url [
+                "../ConnectorWithServo.obj"
+              ]
+            }
+          ]
+        }
+        Transform {
+          translation 0.0523 -0.0002 0
+          rotation 0 1 0 3.14159
+          children [
+            CadShape {
+              url [
+                "../ConnectorWithServo.obj"
+              ]
+            }
+          ]
+        }
+        Transform {
+          translation -0.0523 -0.0002 0
+          children [
+            CadShape {
+              url [
+                "../ConnectorWithServo.obj"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    Leg {
+      translation 0.0300967 -0.0002 -0.0555341
+      rotation 0 1 0 -2.3562053071795863
+      torqueLarge 2
+      motorNameUpper "leg_fr_motor_1"
+      motorNameMiddle "leg_fr_motor_2"
+      motorNameLower "leg_fr_motor_3"
+    }
+    Leg {
+      translation -0.0300967 -0.0002 -0.0555341
+      rotation 0 1 0 -0.7854053071795866
+      torqueLarge 2
+      motorNameUpper "leg_fl_motor_1"
+      motorNameMiddle "leg_fl_motor_2"
+      motorNameLower "leg_fl_motor_3"
+    }
+    Leg {
+      translation -0.0300967 -0.0002 0.0555341
+      rotation 0 1 0 0.785395
+      torqueLarge 2
+      motorNameUpper "leg_bl_motor_1"
+      motorNameMiddle "leg_bl_motor_2"
+      motorNameLower "leg_bl_motor_3"
+    }
+    Leg {
+      translation 0.0300967 -0.0002 0.0555341
+      rotation 0 -1 0 -2.3561953071795863
+      torqueLarge 2
+      motorNameUpper "leg_br_motor_1"
+      motorNameMiddle "leg_br_motor_2"
+      motorNameLower "leg_br_motor_3"
+    }
+    Leg {
+      translation 0.0578 0 0
+      rotation 0 1 0 3.14159
+      torqueLarge 2
+      motorNameUpper "leg_mr_motor_1"
+      motorNameMiddle "leg_mr_motor_2"
+      motorNameLower "leg_mr_motor_3"
+    }
+    Leg {
+      torqueLarge 2
+      motorNameUpper "leg_ml_motor_1"
+      motorNameMiddle "leg_ml_motor_2"
+      motorNameLower "leg_ml_motor_3"
+    }
+    CadShape {
+      url [
+        "../Body.obj"
+      ]
+    }
+  ]
+  boundingObject Mesh {
+    url [
+      "../BodyPhysical.obj"
+    ]
+  }
+  physics Physics {
+    density -1
+    mass 3
+  }
+  controller "keyboard_controller"
+}

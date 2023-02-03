@@ -1,0 +1,157 @@
+#VRML_SIM R2023a utf8
+PROTO Leg [
+  field SFVec3f translation -0.0578 0 0
+  field SFRotation rotation 0 0 1 0
+  field SFFloat angle1 0.0
+  field SFFloat angle2 0.0
+  field SFFloat angle3 0.0
+  field SFFloat torqueSmall 0.25
+  field SFFloat torqueLarge 1.0
+  field SFFloat velocitySmall 10.5
+  field SFFloat velocityLarge 5.0
+  field SFString motorNameUpper "motor_1"
+  field SFString motorNameMiddle "motor_2"
+  field SFString motorNameLower "motor_3"
+]
+{
+  Transform {
+    translation IS translation
+    rotation IS rotation
+    translationStep 0.0001
+    children [
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          position IS angle1
+          axis 0 1 0
+          minStop -0.5
+          maxStop 0.5
+        }
+        device [
+          PositionSensor {
+          }
+          RotationalMotor {
+            name IS motorNameUpper
+            maxTorque IS torqueSmall
+            maxVelocity IS velocitySmall
+            minPosition -0.5
+            maxPosition 0.5
+          }
+        ]
+        endPoint Solid {
+          translation 0.0005 0 0
+          rotation 0 1 0 0
+          children [
+            CadShape {
+              url [
+                "LegUpper.obj"
+              ]
+            }
+            Transform {
+              translation 0.005 0 0
+              children [
+                CadShape {
+                  url [
+                    "LargeServoWithEverything.obj"
+                  ]
+                }
+              ]
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                position IS angle2
+                axis 0 0 1
+                anchor -0.03706 0.0688 0
+                minStop -0.75
+                maxStop 1.9
+              }
+              device [
+                PositionSensor {
+                }
+                RotationalMotor {
+                  name IS motorNameMiddle
+                  maxTorque IS torqueLarge
+                  maxVelocity IS velocityLarge
+                  minPosition -0.75
+                  maxPosition 1.9
+                }
+              ]
+              endPoint Solid {
+                children [
+                  CadShape {
+                    url [
+                      "LegMiddle.obj"
+                    ]
+                  }
+                  Transform {
+                    translation 0.005 0 0
+                    children [
+                      CadShape {
+                        url [
+                          "ServoTopWithEverything.obj"
+                        ]
+                      }
+                    ]
+                  }
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      position IS angle3
+                      axis 0 0 1
+                      anchor -0.0886 0.1048 0
+                      minStop -2.3
+                      maxStop 1.18
+                    }
+                    device [
+                      PositionSensor {
+                      }
+                      RotationalMotor {
+                        name IS motorNameLower
+                        maxTorque IS torqueSmall
+                        maxVelocity IS velocitySmall
+                        minPosition -2.3
+                        maxPosition 1.18
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0.005 0 0
+                      children [
+                        CadShape {
+                          url [
+                            "LegLower.obj"
+                          ]
+                        }
+                      ]
+                      boundingObject Mesh {
+                        url [
+                          "Physical/LegLowerPhysical.obj"
+                        ]
+                      }
+                      physics Physics {
+                        mass 0.03
+                      }
+                    }
+                  }
+                ]
+                boundingObject Mesh {
+                  url [
+                    "Physical/LegMiddlePhysical.obj"
+                  ]
+                }
+                physics Physics {
+                  mass 0.04
+                }
+              }
+            }
+          ]
+          boundingObject Mesh {
+            url [
+              "Physical/LegUpperPhysical.obj"
+            ]
+          }
+          physics Physics {
+            mass 0.1
+          }
+        }
+      }
+    ]
+  }
+}
